@@ -22,7 +22,7 @@
         }
 
         header img {
-            height: 60px;
+            height: 120px;
             margin-bottom: 10px;
         }
 
@@ -109,20 +109,63 @@
         <p>Click the button below to download and start designing steel sections efficiently.</p>
 
         <!-- İndirme Butonu -->
-        <a href="SteelSectionDesigner.exe" class="download-btn" download>Download for Windows</a>
+        <!-- <a href="www.google.com" class="download-btn" download>Download for Windows</a> -->
+        <a href="https://www.google.com" class="download-btn">Download Steel Section Designer App</a>
 
         <!-- İndirme İstatistikleri -->
         <div class="stats">
-            <strong>12,347</strong> downloads so far!
+            <strong><span id="download-count">Yükleniyor...</span></strong> downloads so far!
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
         <h2>Contact Us</h2>
-        <p>Email: <a href="mailto:info@steeldesigner.com">info@steeldesigner.com</a></p>
-        <p>Phone: +90 555 123 4567</p>
-        <p>&copy; 2025 Steel Section Designer. All rights reserved.</p>
+        <p>Email: <a href="mailto:universyncteam@gmail.com">universyncteam@gmail.com</a></p>
+        <p>&copy; 2025 UniverSync. All rights reserved.</p>
     </footer>
+    
+    <script>
+    // GitHub kullanıcı adınızı ve depo adınızı buraya girin
+    const username = 'Kron4ek';
+    const repoName = 'minecraft-vortex-launcher';
+
+    // GitHub API'sinden indirme sayısını getiren fonksiyon
+    async function getDownloadCount() {
+        const url = `https://api.github.com/repos/${username}/${repoName}/releases/latest`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            
+            // Toplam indirme sayısını hesapla
+            let totalDownloads = 0;
+            if (data.assets && Array.isArray(data.assets)) {
+                data.assets.forEach(asset => {
+                    totalDownloads += asset.download_count;
+                });
+            }
+
+            // HTML'deki sayacı güncelle
+            const downloadCountElement = document.getElementById('download-count');
+            if (downloadCountElement) {
+                downloadCountElement.textContent = totalDownloads.toLocaleString(); // Sayıyı daha okunabilir hale getirir
+            }
+
+        } catch (error) {
+            console.error('There was a problem fetching the download count:', error);
+            const downloadCountElement = document.getElementById('download-count');
+            if (downloadCountElement) {
+                downloadCountElement.textContent = 'Veri çekilemedi'; // Hata durumunda kullanıcıya bilgi ver
+            }
+        }
+    }
+
+    // Fonksiyonu sayfa yüklendiğinde çalıştır
+    getDownloadCount();
+</script>
 </body>
 </html>
