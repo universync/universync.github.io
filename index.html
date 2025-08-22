@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steel Section Designer - Download</title>
     <style>
+        /* --- YENİ EKLENEN KAYDIRMA AYARLARI --- */
+        html {
+            scroll-behavior: smooth; /* Sayfa içi linklere akıcı kaydırma efekti ekler */
+            scroll-padding-top: 80px; /* Yapışkan menü yüksekliği kadar boşluk bırakır, böylece içerik menünün altına girmez. */
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: linear-gradient(135deg, #007bff, #ff7f50);
@@ -13,23 +19,55 @@
             padding: 0;
         }
 
+        /* --- HEADER (ÜST MENÜ) STİLLERİ GÜNCELLENDİ --- */
         header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            padding: 20px 0;
-            text-align: center;
+            background: rgba(133, 0, 0, 0.1);
+            backdrop-filter: blur(100px);
+            padding: 10px 0; /* Dikey boşluk azaltıldı */
+            color: rgb(0, 41, 102);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-group {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
             color: white;
         }
 
         header img {
-            height: 120px;
-            margin-bottom: 10px;
+            height: 50px; /* Logo boyutu küçültüldü */
+            margin-right: 15px;
         }
 
         header h1 {
             margin: 0;
-            font-size: 32px;
+            font-size: 24px; /* Başlık boyutu küçültüldü */
             letter-spacing: 1px;
+        }
+        
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+        
+        header nav a:hover {
+            opacity: 0.8;
         }
 
         .container {
@@ -66,6 +104,75 @@
             color: #555;
             margin: 15px 0;
         }
+        
+        .content-section {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .content-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .feature-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+
+        .feature-item h3 {
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .step {
+            flex: 1;
+            max-width: 250px;
+            min-width: 200px;
+        }
+        
+        .step .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
 
         footer {
             background: #222;
@@ -93,32 +200,199 @@
         footer a:hover {
             text-decoration: underline;
         }
+        /* --- DEVELOPERS BÖLÜMÜ STİLLERİ --- */
+        .developers-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px; /* Kartlar arası boşluk */
+            flex-wrap: wrap; /* Mobil cihazlarda kartları alt alta getirir */
+        }
+
+        .developer-card {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 15px; /* Diğer kartlarla aynı yuvarlaklık */
+            text-align: center;
+            width: 250px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .developer-card:hover {
+            transform: translateY(-5px); /* Üzerine gelince hafifçe yukarı kalkar */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .developer-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; /* Resimleri yuvarlak yapar */
+            border: 3px solid #007bff; /* Resim çevresine mavi bir çerçeve */
+            margin-bottom: 20px;
+            object-fit: cover; /* Resmin orantısını korur */
+        }
+
+        .developer-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .developer-card p {
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            color: #6c757d; /* Rol yazısını daha soluk yapar */
+        }
+
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .github-link:hover {
+            color: #007bff; /* Üzerine gelince mavi olur */
+        }
+
+        .github-link svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor; /* Yazı rengini alır */
+        }
+
+        /* --- MOBİL UYUMLULUK İÇİN KÜÇÜK DOKUNUŞ --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 18px; /* Daha küçük ekranlarda başlık yazısını biraz daha küçült */
+            }
+            .header-container {
+                flex-direction: column; /* Çok küçük ekranlarda menüyü alt alta getir */
+                gap: 10px;
+            }
+            html {
+                scroll-padding-top: 120px; /* Mobil menü daha yüksek olduğu için boşluğu arttır */
+            }
+        }
+
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
-        <img src="logo.png" alt="Steel Section Designer Logo">
-        <h1>Steel Section Designer</h1>
-        <p>Optimize Your Steel Designs with Ease</p>
+        <div class="header-container">
+            <a href="#" class="logo-group">
+                <img src="logo.png" alt="Steel Section Designer Logo">
+                <h1>Steel Section Designer</h1>
+            </a>
+            <nav>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#download">Download</a>
+            </nav>
+        </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="container">
+    <section class="content-section" id="features">
+        <h2>Powerful Features for Modern Engineers</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="icon">⚙️</div>
+                <h3>Automated Optimization</h3>
+                <p>Input your design forces and let the app instantly calculate and rank the most economical I-sections by weight and efficiency.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">✅</div>
+                <h3>AISC 360-22 Compliance</h3>
+                <p>Perform section capacity and utilization ratio checks with confidence, ensuring your designs meet the latest industry standards.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">💰</div>
+                <h3>Save Time & Reduce Costs</h3>
+                <p>Eliminate tedious manual calculations. Select the lightest possible section that meets all requirements, leading to significant material savings.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="how-it-works">
+        <h2>Design in Three Simple Steps</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Input Your Forces</h3>
+                <p>Enter the axial forces, moments, and shear forces your section needs to withstand.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Get Optimized Results</h3>
+                <p>Instantly receive a list of suitable I-sections, sorted by weight, with their utilization ratios.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Select & Verify</h3>
+                <p>Choose the best profile for your project, confident that it's the most efficient and compliant choice.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="developers">
+        <h2>Meet the Developers</h2>
+        <div class="developers-grid">
+            <div class="developer-card">
+                <!-- <img src="feyzullah.jpg" alt="Developer Enes"> -->
+                <h3>Feyzullah Çelik</h3>
+                <p>Lead Developer</p>
+                <a href="https://github.com/FeyzullahClk" target="_blank" class="github-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+
+            <div class="developer-card">
+                <!-- <img src="enes.jpg" alt="Developer Enes"> -->
+                <h3>Enes Eliağır</h3>
+                <p>Lead Developer</p>
+                <a href="https://github.com/TheRaven815" target="_blank" class="github-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+
+            <div class="developer-card">
+                <!-- <img src="kubra.jpg" alt="Developer Kübra"> -->
+                <h3>Kübra Atlan</h3>
+                <p>UI/UX Designer</p>
+                <a href="https://github.com/arafkubraa" target="_blank" class="github-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="container" id="download">
         <h2>Download Our Desktop Application</h2>
-        <p>Click the button below to download and start designing steel sections efficiently.</p>
-
-        <!-- İndirme Butonu -->
-        <!-- <a href="www.google.com" class="download-btn" download>Download for Windows</a> -->
-        <a href="https://www.google.com" class="download-btn">Download Steel Section Designer App</a>
-
-        <!-- İndirme İstatistikleri -->
+        <p>Click the button below to download the 3-month trial and start designing steel sections efficiently.</p>
+        
+        <a href="https://github.com/Kron4ek/minecraft-vortex-launcher/releases/latest" target="_blank" class="download-btn">
+            Download Steel Section Designer App
+        </a>
+        
         <div class="stats">
-            <strong><span id="download-count">Yükleniyor...</span></strong> downloads so far!
+            <strong><span id="download-count">Loading...</span></strong> downloads so far!
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <h2>Contact Us</h2>
         <p>Email: <a href="mailto:universyncteam@gmail.com">universyncteam@gmail.com</a></p>
@@ -126,11 +400,12 @@
     </footer>
     
     <script>
-    // GitHub kullanıcı adınızı ve depo adınızı buraya girin
-    const username = 'Kron4ek';
-    const repoName = 'minecraft-vortex-launcher';
+    // ÖNEMLİ: Buradaki kullanıcı adı ve repo adını kendi bilgilerinizle değiştirdiğinizde,
+    // yukarıdaki indirme linkini de manuel olarak güncellemeniz gerekir.
+    const username = 'Kron4ek'; // E.g., 'UniverSync'
+    const repoName = 'minecraft-vortex-launcher'; // E.g., 'Steel-Section-Designer'
 
-    // GitHub API'sinden indirme sayısını getiren fonksiyon
+    // Function to get the download count from the GitHub API
     async function getDownloadCount() {
         const url = `https://api.github.com/repos/${username}/${repoName}/releases/latest`;
 
@@ -141,7 +416,6 @@
             }
             const data = await response.json();
             
-            // Toplam indirme sayısını hesapla
             let totalDownloads = 0;
             if (data.assets && Array.isArray(data.assets)) {
                 data.assets.forEach(asset => {
@@ -149,22 +423,21 @@
                 });
             }
 
-            // HTML'deki sayacı güncelle
             const downloadCountElement = document.getElementById('download-count');
             if (downloadCountElement) {
-                downloadCountElement.textContent = totalDownloads.toLocaleString(); // Sayıyı daha okunabilir hale getirir
+                downloadCountElement.textContent = totalDownloads.toLocaleString();
             }
 
         } catch (error) {
             console.error('There was a problem fetching the download count:', error);
             const downloadCountElement = document.getElementById('download-count');
             if (downloadCountElement) {
-                downloadCountElement.textContent = 'Veri çekilemedi'; // Hata durumunda kullanıcıya bilgi ver
+                downloadCountElement.textContent = 'Could not fetch data';
             }
         }
     }
 
-    // Fonksiyonu sayfa yüklendiğinde çalıştır
+    // Run the function when the page loads
     getDownloadCount();
 </script>
 </body>
