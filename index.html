@@ -56,13 +56,13 @@
         }
 
         header img {
-            height: 60px; /* Logo boyutu küçültüldü */
+            height: 80px; /* Logo boyutu küçültüldü */
             margin-right: 15px;
         }
 
         header h1 {
             margin: 0;
-            font-size: 24px; /* Başlık boyutu küçültüldü */
+            font-size: 24px;
             letter-spacing: 1px;
         }
         
@@ -94,7 +94,7 @@
             font-size: 20px;
             font-weight: bold;
             color: white;
-            background: linear-gradient(90deg, #007bff, #0056b3);
+            background: linear-gradient(90deg, #007bff, #1930ff8c);
             border-radius: 10px;
             text-decoration: none;
             margin: 25px 0;
@@ -185,8 +185,7 @@
         footer {
             background: #222;
             color: #ccc;
-            padding: 30px 15px;
-            text-align: center;
+            padding: 20px 0; /* Dikey boşluk verdik */
             margin-top: 50px;
         }
 
@@ -207,6 +206,39 @@
 
         footer a:hover {
             text-decoration: underline;
+        }
+
+        /* Footer içeriğini hizalamak için ana container */
+        .footer-container {
+            max-width: 420px; /* Sitenizin ana içerik genişliğiyle aynı yapın */
+            margin: 0 auto; /* Sayfada ortalamak için */
+            padding: 0 20px; /* Kenarlardan boşluk */
+            display: flex; /* Logo ve bilgileri yan yana getirmek için */
+            justify-content: space-between; /* Öğeleri iki uca yaslamak için */
+            align-items: center; /* Öğeleri dikeyde ortalamak için */
+        }
+
+        /* Sol taraftaki logo için stil */
+        .footer-logo img {
+            height: 100px; /* Logonuzun yüksekliğini buradan ayarlayabilirsiniz */
+            width: auto;
+        }
+
+        /* Sağ taraftaki yazı grubunu sağa yaslamak için */
+        .footer-info {
+            text-align: center;
+        }
+
+        /* Mobil Cihazlar İçin Ekstra Kural (Önerilir) */
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column; /* Küçük ekranlarda alt alta getir */
+                gap: 20px; /* Araya boşluk koy */
+            }
+
+            .footer-info {
+                text-align: center; /* Küçük ekranlarda yazıları ortala */
+            }
         }
         /* --- DEVELOPERS BÖLÜMÜ STİLLERİ --- */
         .developers-grid {
@@ -343,6 +375,7 @@
             </a>
             <nav>
                 <a href="#features">Features</a>
+                <a href="#screenshots">Screenshots</a>
                 <a href="#how-it-works">How It Works</a>
                 <a href="#download">Download</a>
             </nav>
@@ -370,7 +403,7 @@
         </div>
     </section>
 
-    <section class="content-section" id="features">
+    <section class="content-section" id="screenshots">
         <h2>Screenshots</h2>
         <div class="features-grid">
             <div class="feature-item">
@@ -488,9 +521,17 @@
     </div>
 
     <footer>
-        <h2>Contact Us</h2>
-        <p>Email: <a href="mailto:universyncteam@gmail.com">universyncteam@gmail.com</a></p>
-        <p>&copy; 2025 UniverSync. All rights reserved.</p>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="images/logo_curved.png" alt="UniverSync Logo">
+            </div>
+
+            <div class="footer-info">
+                <h2>Contact Us</h2>
+                <p>Email: <a href="mailto:universyncteam@gmail.com">universyncteam@gmail.com</a></p>
+                <p>&copy; 2025 UniverSync. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 <script>
     // ÖNEMLİ: Buradaki kullanıcı adı ve repo adını kendi bilgilerinizle değiştirebilirsiniz.
