@@ -50,7 +50,7 @@
         }
 
         header img {
-            height: 50px; /* Logo boyutu küçültüldü */
+            height: 60px; /* Logo boyutu küçültüldü */
             margin-right: 15px;
         }
 
@@ -465,17 +465,19 @@
         </div>
     </section>
 
-    <div class="container" id="download">
-        <h2>Download Our Desktop Application</h2>
-        <p>Click the button below to download the 3-month trial and start designing steel sections efficiently.</p>
-        
-        <a href="https://github.com/universync/steel_section_designer/releases/latest" target="_blank" class="download-btn">
-            Download Steel Section Designer App
-        </a>
-        
-        <div class="stats">
-            <strong><span id="download-count">Loading...</span></strong> downloads so far!
+        <div class="container" id="download">
+            <h2>Download Our Desktop Application</h2>
+            <p>Click the button below to download the 3-month trial and start designing steel sections efficiently.</p>
+            
+            <a href="#" id="download-link" class="download-btn">
+                Download Steel Section Designer App
+            </a>
+            
+            <div class="stats">
+                <strong><span id="download-count">Loading...</span></strong> downloads so far!
+            </div>
         </div>
+
     </div>
 
     <footer>
@@ -483,47 +485,73 @@
         <p>Email: <a href="mailto:universyncteam@gmail.com">universyncteam@gmail.com</a></p>
         <p>&copy; 2025 UniverSync. All rights reserved.</p>
     </footer>
-    
-    <script>
-    // ÖNEMLİ: Buradaki kullanıcı adı ve repo adını kendi bilgilerinizle değiştirdiğinizde,
-    // yukarıdaki indirme linkini de manuel olarak güncellemeniz gerekir.
-    const username = 'universync'; // E.g., 'UniverSync'
-    const repoName = 'steel_section_designer'; // E.g., 'Steel-Section-Designer'
+<script>
+    // ÖNEMLİ: Buradaki kullanıcı adı ve repo adını kendi bilgilerinizle değiştirebilirsiniz.
+    const username = 'universync'; // GitHub kullanıcı adınız
+    const repoName = 'steel_section_designer'; // GitHub repo adınız
 
-    // Function to get the download count from the GitHub API
-    async function getDownloadCount() {
-        const url = `https://api.github.com/repos/${username}/${repoName}/releases/latest`;
+    // GitHub API'sinden hem toplam indirme sayısını hem de en son .exe linkini alan fonksiyon
+    async function updateGitHubStats() {
+        // API endpoint'ine sayfa başına 100 sonuç getirmesi için parametre eklendi
+        const url = `https://api.github.com/repos/${username}/${repoName}/releases?per_page=100`;
+
+        // HTML'deki ilgili elemanları seçiyoruz
+        const downloadCountElement = document.getElementById('download-count');
+        const downloadLinkElement = document.getElementById('download-link'); // Artık bu ID'yi bulabilecek
 
         try {
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const data = await response.json();
-            
+            const allReleases = await response.json(); 
+
             let totalDownloads = 0;
-            if (data.assets && Array.isArray(data.assets)) {
-                data.assets.forEach(asset => {
-                    totalDownloads += asset.download_count;
+            let latestExeUrl = '#'; 
+
+            if (Array.isArray(allReleases) && allReleases.length > 0) {
+                
+                // 1. Tüm sürümleri gezerek toplam indirme sayısını hesapla
+                allReleases.forEach(release => {
+                    if (release.assets && Array.isArray(release.assets)) {
+                        release.assets.forEach(asset => {
+                            totalDownloads += asset.download_count;
+                        });
+                    }
                 });
+
+                // 2. En son sürümdeki .exe dosyasını bul
+                const latestRelease = allReleases[0];
+                if (latestRelease.assets && Array.isArray(latestRelease.assets)) {
+                    const exeAsset = latestRelease.assets.find(asset => asset.name.endsWith('.exe'));
+                    if (exeAsset) {
+                        latestExeUrl = exeAsset.browser_download_url;
+                    }
+                }
             }
 
-            const downloadCountElement = document.getElementById('download-count');
+            // HTML elemanlarını güncelle
             if (downloadCountElement) {
-                downloadCountElement.textContent = totalDownloads.toLocaleString();
+                downloadCountElement.textContent = totalDownloads.toLocaleString(); 
+            }
+            if (downloadLinkElement) {
+                downloadLinkElement.href = latestExeUrl; // İndirme linkini <a> etiketinin href'ine ata
             }
 
         } catch (error) {
-            console.error('There was a problem fetching the download count:', error);
-            const downloadCountElement = document.getElementById('download-count');
+            console.error('GitHub verileri alınırken bir sorun oluştu:', error);
             if (downloadCountElement) {
-                downloadCountElement.textContent = 'Could not fetch data';
+                downloadCountElement.textContent = 'Veri alınamadı';
+            }
+             if (downloadLinkElement) {
+                downloadLinkElement.textContent = 'Link alınamadı';
+                downloadLinkElement.href = '#';
             }
         }
     }
 
-    // Run the function when the page loads
-    getDownloadCount();
+    // Sayfa yüklendiğinde fonksiyonu çalıştır
+    updateGitHubStats();
 </script>
 </body>
 </html>
