@@ -88,7 +88,6 @@
         }
 
         .download-btn {
-            display: inline-block;
             padding: 15px 35px;
             font-size: 20px;
             font-weight: bold;
@@ -98,12 +97,28 @@
             text-decoration: none;
             margin: 25px 0;
             transition: all 0.3s ease;
+            width: 210px;
+            display: inline-flex;
+            align-items: center;
         }
 
         .download-btn:hover {
             background: linear-gradient(90deg, #0056b3, #003f88);
-            box-shadow: 0 5px 15px rgba(0,123,255,0.5);
+            box-shadow: 0 5px 15px rgba(0, 53, 54, 0.5);
             transform: scale(1.05);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px; /* Adjust the space between buttons */
+            justify-content: center; /* Center the buttons */
+            flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+        }
+
+        .download-btn i {
+            /* İkon ile yazı arasına sağdan 8px boşluk bırakır */
+            margin-right: 8px;
+            font-size: 1.1em; /* İkonu yazıdan bir tık büyük yapar */
         }
 
         .stats {
@@ -344,6 +359,7 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
+
         .feature-item img:hover {
             transform: scale(1.05);
         }
@@ -364,6 +380,8 @@
         
 
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <title>Uygulama İndirme</title>
 </head>
 <body>
     <header>
@@ -381,7 +399,7 @@
         </div>
     </header>
 
-        <section class="content-section" id="features">
+    <section class="content-section" id="features">
         <h2>Powerful Features for Modern Engineers</h2>
         <div class="features-grid">
             <div class="feature-item">
@@ -507,17 +525,19 @@
         <div class="container" id="download">
             <h2>Download Our Desktop Application</h2>
             <p>Click the button below to download the 3-month trial and start designing steel sections efficiently.</p>
-            
-            <a href="#" id="download-link" class="download-btn">
-                Download Steel Section Designer App
-            </a>
-            
+            <div class="button-group">
+                <a href="#" id="download-link_win" class="download-btn">
+                    <i class="fa-brands fa-windows"></i> Windows Version
+                </a>
+                <a href="#" id="download-link_mac" class="download-btn">
+                    <i class="fa-brands fa-apple"></i> Mac Version
+                </a>
+            </div>
+
             <div class="stats">
                 <strong><span id="download-count">Loading...</span></strong> downloads so far!
             </div>
         </div>
-
-    </div>
 
     <footer>
         <div class="footer-container">
@@ -544,7 +564,7 @@
 
         // HTML'deki ilgili elemanları seçiyoruz
         const downloadCountElement = document.getElementById('download-count');
-        const downloadLinkElement = document.getElementById('download-link'); // Artık bu ID'yi bulabilecek
+        const downloadLinkElement = document.getElementById('download-link_win'); // Artık bu ID'yi bulabilecek
 
         try {
             const response = await fetch(url);
