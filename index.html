@@ -553,28 +553,28 @@
         </div>
     </footer>
 <script>
-    // ÖNEMLİ: Buradaki kullanıcı adı ve repo adını kendi bilgilerinizle değiştirebilirsiniz.
     const username = 'universync'; // GitHub kullanıcı adınız
     const repoName = 'steel_section_designer'; // GitHub repo adınız
 
-    // GitHub API'sinden hem toplam indirme sayısını hem de en son .exe linkini alan fonksiyon
+    // GitHub API'sinden hem toplam indirme sayısını hem de en son sürüm linklerini alan fonksiyon
     async function updateGitHubStats() {
-        // API endpoint'ine sayfa başına 100 sonuç getirmesi için parametre eklendi
         const url = `https://api.github.com/repos/${username}/${repoName}/releases?per_page=100`;
 
         // HTML'deki ilgili elemanları seçiyoruz
         const downloadCountElement = document.getElementById('download-count');
-        const downloadLinkElement = document.getElementById('download-link_win'); // Artık bu ID'yi bulabilecek
+        const downloadLinkWinElement = document.getElementById('download-link_win');
+        const downloadLinkMacElement = document.getElementById('download-link_mac');
 
         try {
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const allReleases = await response.json(); 
+            const allReleases = await response.json();
 
             let totalDownloads = 0;
-            let latestExeUrl = '#'; 
+            let latestExeUrl = '#'; // Windows linki için
+            let latestDmgUrl = '#'; // Mac linki için eklendi
 
             if (Array.isArray(allReleases) && allReleases.length > 0) {
                 
@@ -587,22 +587,32 @@
                     }
                 });
 
-                // 2. En son sürümdeki .exe dosyasını bul
+                // 2. En son sürümdeki Windows (.exe) ve Mac (.dmg) dosyalarını bul
                 const latestRelease = allReleases[0];
                 if (latestRelease.assets && Array.isArray(latestRelease.assets)) {
+                    // Windows için .exe dosyasını bul
                     const exeAsset = latestRelease.assets.find(asset => asset.name.endsWith('.exe'));
                     if (exeAsset) {
                         latestExeUrl = exeAsset.browser_download_url;
+                    }
+                    
+                    // Mac için .dmg dosyasını bul (YENİ)
+                    const dmgAsset = latestRelease.assets.find(asset => asset.name.endsWith('.dmg'));
+                    if (dmgAsset) {
+                        latestDmgUrl = dmgAsset.browser_download_url;
                     }
                 }
             }
 
             // HTML elemanlarını güncelle
             if (downloadCountElement) {
-                downloadCountElement.textContent = totalDownloads.toLocaleString(); 
+                downloadCountElement.textContent = totalDownloads.toLocaleString();
             }
-            if (downloadLinkElement) {
-                downloadLinkElement.href = latestExeUrl; // İndirme linkini <a> etiketinin href'ine ata
+            if (downloadLinkWinElement) {
+                downloadLinkWinElement.href = latestExeUrl;
+            }
+            if (downloadLinkMacElement) { // Mac butonu linkini güncelle (YENİ)
+                downloadLinkMacElement.href = latestDmgUrl;
             }
 
         } catch (error) {
@@ -610,9 +620,11 @@
             if (downloadCountElement) {
                 downloadCountElement.textContent = 'Veri alınamadı';
             }
-             if (downloadLinkElement) {
-                downloadLinkElement.textContent = 'Link alınamadı';
-                downloadLinkElement.href = '#';
+            if (downloadLinkWinElement) {
+                downloadLinkWinElement.href = '#';
+            }
+            if (downloadLinkMacElement) { // Hata durumunda Mac butonunu da güncelle (YENİ)
+                downloadLinkMacElement.href = '#';
             }
         }
     }
